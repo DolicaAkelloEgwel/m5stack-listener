@@ -18,9 +18,9 @@ def calculate_median(vals):
     return (ordered[mid_index - 1] + ordered[mid_index]) / 2
 
 
-while len(RSSI_VALUES) < 10 and not all(
-    [len(vals) >= 50 for vals in RSSI_VALUES.values()]
-):
+counter = 0
+
+while counter < 150:
 
     data, addr = sock.recvfrom(2048)
     data = data.decode()
@@ -34,6 +34,12 @@ while len(RSSI_VALUES) < 10 and not all(
             RSSI_VALUES[key] = []
         RSSI_VALUES[key].append(d[key]["rssi"])
 
-MEDIAN_RSSI = {key: calculate_median(value) for key, value in RSSI_VALUES}
+    counter += 1
+    if len(RSSI_VALUES) < 10 and not all(
+        [len(vals) >= 50 for vals in RSSI_VALUES.values()]
+    ):
+        break
+
+MEDIAN_RSSI = {key: calculate_median(RSSI_VALUES[key]) for key in RSSI_VALUES}
 print(MEDIAN_RSSI)
 exit()
