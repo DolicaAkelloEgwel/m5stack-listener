@@ -12,6 +12,8 @@ print("Listening...")
 # track names of nearby wifi networks
 WIFI_NAMES = ("eduroam", "UAL-IoT", "UAL-WiFi", "UAL-Guest-WiFi", "Igloo")
 
+MAX_RECORDINGS = 50
+
 
 def calculate_median(vals):
     mid_index = 50 // 2
@@ -39,19 +41,23 @@ while counter < 200:
         if combined_name not in RSSI_VALUES:
             RSSI_VALUES[combined_name] = []
 
-        if len(RSSI_VALUES[combined_name]) < 50:
+        # take 50 recordings
+        if len(RSSI_VALUES[combined_name]) < MAX_RECORDINGS:
             RSSI_VALUES[combined_name].append(d[key]["rssi"])
 
     counter += 1
+
+    # stop when 50 recordings have been taken for at least 10 networks
     if len(RSSI_VALUES) > 10 and all(
-        [len(vals) == 50 for vals in RSSI_VALUES.values()]
+        [len(vals) == MAX_RECORDINGS for vals in RSSI_VALUES.values()]
     ):
         break
 
+# calculate the median rssi value
 MEDIAN_RSSI = {
     key: calculate_median(RSSI_VALUES[key])
     for key in RSSI_VALUES
-    if len(RSSI_VALUES[key]) == 50
+    if len(RSSI_VALUES[key]) == MAX_RECORDINGS
 }
 
 for key in MEDIAN_RSSI:
