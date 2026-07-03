@@ -2,7 +2,6 @@ import json
 import socket
 
 RSSI_VALUES = dict()
-MEDIAN_RSSI = dict()
 
 # create a socket for listening to M5Stick messages
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -17,9 +16,15 @@ MIN_NETWORKS_NEEDED = 10
 
 
 def calculate_median(vals):
-    mid_index = 50 // 2
+
     ordered = sorted(vals)
-    return (ordered[mid_index - 1] + ordered[mid_index]) / 2
+    n = len(vals)
+
+    if n % 2 == 0:
+        mid_index = n // 2
+        return (ordered[mid_index - 1] + ordered[mid_index]) / 2
+    else:
+        return ordered[(n // 2)]
 
 
 counter = 0
@@ -49,17 +54,17 @@ while counter < 200:
     counter += 1
 
     # stop when 50 recordings have been taken for at least 10 networks
-    if len(RSSI_VALUES) > MIN_NETWORKS_NEEDED and all(
-        [len(vals) == MAX_RECORDINGS for vals in RSSI_VALUES.values()]
+    if (
+        sum([len(vals) == MAX_RECORDINGS for vals in RSSI_VALUES.values()])
+        > MIN_NETWORKS_NEEDED
     ):
         break
 
-# calculate the median rssi value
-MEDIAN_RSSI = {
-    key: calculate_median(RSSI_VALUES[key])
-    for key in RSSI_VALUES
-    if len(RSSI_VALUES[key]) == MAX_RECORDINGS
-}
+    print(RSSI_VALUES)
 
-for key in MEDIAN_RSSI:
-    print(f"{key}: {MEDIAN_RSSI[key]}")
+# calculate the median rssi value
+for key in RSSI_VALUES:
+    if len(RSSI_VALUES[key]) == 50:
+        print(f"{key}: {calculate_median(RSSI_VALUES[key])}")
+    else:
+        print(len(RSSI_VALUES[key]))
