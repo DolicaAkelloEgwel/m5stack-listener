@@ -4,12 +4,13 @@ import socket
 RSSI_VALUES = dict()
 MEDIAN_RSSI = dict()
 
+# create a socket for listening to M5Stick messages
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(("0.0.0.0", 8000))
-
-names = ("eduroam", "UAL-IoT", "UAL-WiFi", "UAL-Guest-WiFi", "Igloo")
-
 print("Listening...")
+
+# track names of nearby wifi networks
+WIFI_NAMES = ("eduroam", "UAL-IoT", "UAL-WiFi", "UAL-Guest-WiFi", "Igloo")
 
 
 def calculate_median(vals):
@@ -28,10 +29,13 @@ while counter < 200:
     print("Received data.")
 
     for key in d.keys():
-        if d[key]["name"] not in names:
+        # continue if the network isn't in the list
+        if d[key]["name"] not in WIFI_NAMES:
             continue
 
         combined_name = f"{d[key]['name']}-{key}"
+
+        # create a new dictionary entry if this has not been seen before
         if combined_name not in RSSI_VALUES:
             RSSI_VALUES[combined_name] = []
 
