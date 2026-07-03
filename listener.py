@@ -13,6 +13,7 @@ print("Listening...")
 WIFI_NAMES = ("eduroam", "UAL-IoT", "UAL-WiFi", "UAL-Guest-WiFi", "Igloo")
 
 MAX_RECORDINGS = 50
+MIN_NETWORKS_NEEDED = 10
 
 
 def calculate_median(vals):
@@ -48,7 +49,7 @@ while counter < 200:
     counter += 1
 
     # stop when 50 recordings have been taken for at least 10 networks
-    if len(RSSI_VALUES) > 10 and all(
+    if len(RSSI_VALUES) > MIN_NETWORKS_NEEDED and all(
         [len(vals) == MAX_RECORDINGS for vals in RSSI_VALUES.values()]
     ):
         break
@@ -62,5 +63,3 @@ MEDIAN_RSSI = {
 
 for key in MEDIAN_RSSI:
     print(f"{key}: {MEDIAN_RSSI[key]}")
-
-exit()
