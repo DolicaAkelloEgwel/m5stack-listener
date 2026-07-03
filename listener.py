@@ -44,7 +44,11 @@ while counter < 200:
     ):
         break
 
-MEDIAN_RSSI = {key: calculate_median(RSSI_VALUES[key]) for key in RSSI_VALUES if len(RSSI_VALUES[key]) == 50}
+MEDIAN_RSSI = {
+    key: calculate_median(RSSI_VALUES[key])
+    for key in RSSI_VALUES
+    if len(RSSI_VALUES[key]) == 50
+}
 
 for key in MEDIAN_RSSI:
     print(f"{key}: {MEDIAN_RSSI[key]}")
