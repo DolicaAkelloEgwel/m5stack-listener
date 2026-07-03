@@ -1,5 +1,5 @@
-import socket
 import json
+import socket
 
 RSSI_VALUES = dict()
 MEDIAN_RSSI = dict()
