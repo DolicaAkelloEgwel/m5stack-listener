@@ -24,15 +24,15 @@
 #X obj 628 338 route dim0;
 #X obj 1055 338 route dim3;
 #X obj 250 691 readsf~ 2;
-#X msg 51 429 open /home/dolica/Documents/audio-files/choir-concert.wav
+#X msg 107 502 open /home/dolica/Documents/audio-files/choir-concert.wav
 ;
-#X msg 362 636 start;
+#X msg 558 506 start;
 #X obj 680 705 vsl 15 128 0.5 3 0 0 empty empty empty 0 -9 0 10 #fcfcfc
 #000000 #000000 0 1;
 #X obj 390 896 *~;
-#X msg 301 570 stop;
-#X obj 360 301 t b b;
-#X obj 360 253 bng 20 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#X msg 555 544 stop;
+#X obj 417 332 t b b;
+#X obj 292 230 bng 20 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
 #000000 #000000;
 #X obj 376 804 nn~ darbouka_onnx.ts forward 32768;
 #X connect 1 0 2 0;
@@ -55,7 +55,7 @@
 #X connect 19 0 17 0;
 #X connect 20 0 28 0;
 #X connect 20 1 28 0;
-#X connect 20 2 22 0;
+#X connect 20 2 27 0;
 #X connect 21 0 20 0;
 #X connect 22 0 20 0;
 #X connect 23 0 24 1;
