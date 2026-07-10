@@ -1,0 +1,16 @@
+[project]
+name = "m5stack-listener"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-osc>=1.10.2",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "isort>=8.0.1",
+    "pre-commit>=4.6.0",
+]
